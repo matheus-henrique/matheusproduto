@@ -4,6 +4,7 @@ from produtos_api.serializers import ProdutosSerializer
 from rest_framework.views import APIView
 from django.http import Http404
 from rest_framework.response import Response
+from rest_framework import status
 
 # Create your views here.
 class ProdutosList(APIView):
@@ -13,6 +14,13 @@ class ProdutosList(APIView):
 		serializer = ProdutosSerializer(produtos, many=True)
 		return Response(serializer.data)
 
+	def post(self,request):
+		print(request.data)
+		serializer = ProdutosSerializer(data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 	def delete(self, request, pk, format=None):
 		produto = self.get_object(pk)
 		produto.delete()

@@ -19,7 +19,35 @@
 		  <p class="lead">Matheus Produtos é um sistema CRUD para todos os tipos de produtos.</p>
 		</div>
 	</div>
+
 	<div class="container">
+		<div id="msg">
+			
+		</div>
+		<form id="form_cadastra_produto">
+			<h1>CADASTRO DE PRODUTOS</h1>
+			  <div class="col-4">
+			  	<p>Nome do Produto</p>
+		      		<div class="input-group mb-3">
+				  <input id="nome" name="nome" type="text" class="form-control" placeholder="Digite aqui o nome do produto" aria-label="Username" aria-describedby="basic-addon1" required>
+				</div>
+	   		 </div>
+	   		  <div class="col-4">
+			  	<p>Valor do Produto</p>
+		      		<div class="input-group mb-3">
+				  <input id="valor" type="text" name="valor" class="form-control" placeholder="Digite aqui o valor do produto..." aria-label="Username" aria-describedby="basic-addon1" required>
+				</div>
+	   		 </div>
+
+	   		  <div class="col-4">
+			  	<button type='submit' class='btn btn-success'>Salvar Produto</button>
+	   		
+	   		 </div>
+   		 </form>	
+		
+	</div>
+	<div class="container">
+		<h1>LISTA DE PRODUTOS</h1>
 		<table class="table table-bordered table-hover">
 		  <thead>
 		    <tr>
