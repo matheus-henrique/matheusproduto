@@ -21,14 +21,10 @@ class ProdutosList(APIView):
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-	def delete(self, request, pk, format=None):
-		produto = self.get_object(pk)
-		produto.delete()
-		return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ProdutosListDetails(APIView):
-	def get_object(self,pk ):
+	def get_object(self,pk):
 		try:
 			return Produtos.objects.get(pk=pk)
 		except Produtos.DoesNotExist:
@@ -45,6 +41,11 @@ class ProdutosListDetails(APIView):
 		if serializer.is_valid():
 			serializer.save()
 			return Response(serializer.data)
+
+	def delete(self, request, pk, format=None):
+		produto = self.get_object(pk)
+		produto.delete()
+		return Response(status=status.HTTP_204_NO_CONTENT)
 
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
