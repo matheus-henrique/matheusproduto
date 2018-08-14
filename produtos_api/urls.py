@@ -1,9 +1,7 @@
-from django.conf.urls import url
-from .import views
+from produtos_api.views import ProdutoViewSet,FornecedorViewSet,GerarAuthToken
+from rest_framework.routers import DefaultRouter
 
-urlpatterns = [
-    url(r'^produtos/$', views.ProdutosList.as_view()),
-    url(r'^produto/(?P<pk>[0-9]+)/$', views.ProdutosListDetails.as_view()),
-    url(r'^fornecedores/$', views.FornecedoresList.as_view()),
-    url(r'^fornecedor/(?P<pk>[0-9]+)/$', views.FornecedoresListDetails.as_view()),
-]
+router = DefaultRouter()
+router.register(r'produtos', ProdutoViewSet, base_name='produto')
+router.register(r'fornecedores', FornecedorViewSet, base_name='fornecedor')
+urlpatterns = router.urls

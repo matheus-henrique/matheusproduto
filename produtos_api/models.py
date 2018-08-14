@@ -12,5 +12,7 @@ class Fornecedores(models.Model):
 	nome = models.TextField()
 	endereco = models.TextField()
 	cnpj = models.TextField()
-	produtos = models.ManyToManyField(Produtos, related_name='fornecedores')
+	produtos = models.ManyToManyField(Produtos, blank=True, default="")
 
+	def __str__(self):
+		return self.nome
