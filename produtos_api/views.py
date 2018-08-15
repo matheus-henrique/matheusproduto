@@ -9,7 +9,15 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework import generics
 from rest_framework import viewsets
+from rest_framework import permissions
+from django.contrib.auth.models import User
 from django_filters.rest_framework import DjangoFilterBackend
+from django.contrib.auth import authenticate
+
+
+def index(request):
+	return render(request, 'index.html', {})
+
 
 class GerarAuthToken(ObtainAuthToken):
 
@@ -36,7 +44,7 @@ class ProdutoViewSet(viewsets.ModelViewSet):
 		return queryset.filter(nome=self.request.query_params.get('nome'))
 
 	def update(self, request, pk=None):
-		produto = self.get_object(pk)
+		produto = Produtos.objects.get(pk=pk)
 		serializer = ProdutosSerializer(produto, data=request.data)
 		if serializer.is_valid():
 			serializer.save()
@@ -64,12 +72,27 @@ class ProdutoViewSet(viewsets.ModelViewSet):
 		return Response(serializer.data)
 
 	def destroy(self, request, *args, **kwargs):
-		try:
-			instance = self.get_object()
-			self.perform_destroy(instance)
-		except Http404:
-			pass
-		return Response(status=status.HTTP_204_NO_CONTENT)	
+		instance = Produtos.objects.get(id=self.kwargs.get('pk'))
+		instance.delete()
+		return Response(status=status.HTTP_201_CREATED)
+
+
+
+class CriarUsuario(APIView):
+	permission_classes = (permissions.AllowAny,)
+
+	def post(self, request, format=None):
+		if User.objects.filter(username=request.POST.get('username')).exists():
+			user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
+			return Response(status=status.HTTP_201_CREATED)
+		else:
+			user = User.objects.create_user(request.POST.get('username'),'matheus@matheus.com',request.POST.get('password'))
+			user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
+			if user is not None:
+			   return Response(status=status.HTTP_201_CREATED)
+			else:
+				return Response(status=status.HTTP_400_BAD_REQUEST)
+			
 
 
 class FornecedorViewSet(viewsets.ModelViewSet):

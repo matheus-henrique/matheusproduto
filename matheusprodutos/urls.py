@@ -20,5 +20,8 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path(r'api/v1/', include('produtos_api.urls')),
+    path(r'', views.index),
     path(r'api-token-auth/', views.GerarAuthToken.as_view()),
+	path(r'criar-usuario/', views.CriarUsuario.as_view()),
+    
 ]

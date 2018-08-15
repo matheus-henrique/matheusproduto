@@ -1,0 +1,11 @@
+version: '3'
+services:
+  development:
+    container_name: mprodutos-developer
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+     - "80:80"
+    tty: true
